@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     'widget_tweaks',
 
-    'boards'
+    'boards',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# Authentication redirects
+LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
+
+
+# Email backend
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
