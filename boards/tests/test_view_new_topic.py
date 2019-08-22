@@ -14,6 +14,7 @@ class NewTopicTests(TestCase):
     def setUp(self):
         Board.objects.create(name='Django', description='Django board.')
         User.objects.create_user(username='john', email='john@doe.com', password='123')
+        self.client.login(username='john', password='123')
 
     def test_new_topic_view_success_status_code(self):
         """Test new topic view success status code.
@@ -103,8 +104,20 @@ class NewTopicTests(TestCase):
     def test_contains_form(self):
         """Test new topics view contains a form.
         """
-
-        url = reverse('new_topic', kwargs={'pk': 1})
+        # TODO refactor to include login
+        url = reverse('new_topic', kwargs={'pk': 1})  # /boards/1/new/
         response = self.client.get(url)
         form = response.context.get('form')
         self.assertIsInstance(form, NewTopicForm)
+
+
+class LoginRequiredNewTopicTests(TestCase):
+    def setUp(self):
+        Board.objects.create(name='Django', description='Django board.')
+        self.url = reverse('new_topic', kwargs={'pk': 1})
+        self.response = self.client.get(self.url)
+
+    def test_redirection(self):
+        login_url = reverse('login')
+        redirect_url = '{login_url}?next={url}'.format(login_url=login_url, url=self.url)
+        self.assertRedirects(self.response, redirect_url)
