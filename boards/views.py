@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, ListView
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 
@@ -9,13 +9,10 @@ from .models import Board, Topic, Post
 from .forms import NewTopicForm, PostForm
 
 
-def home(request):
-    boards = Board.objects.all()
-    context = {
-        'boards': boards
-    }
-
-    return render(request, 'boards/home.html', context)
+class BoardListView(ListView):
+    model = Board
+    context_object_name = 'boards'
+    template_name = 'boards/home.html'
 
 
 def board_topics(request, pk):
