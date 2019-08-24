@@ -2,7 +2,13 @@
 
 {% load widget_tweaks %}
 
+{% load static %}
+
 {% block title %}Start a New Topic{% endblock %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
+{% endblock %}
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'home' %}">Boards</a></li>
@@ -21,4 +27,11 @@
 
     <button type="submit" class="btn btn-success">Post</button>
   </form>
+{% endblock %}
+
+{% block javascript %}
+  <script src="{% static 'js/simplemde.min.js' %}"></script>
+  <script>
+    var simplemde = new SimpleMDE();
+  </script>
 {% endblock %}
