@@ -25,7 +25,7 @@ SECRET_KEY =  os.getenv('SECRET_KEY') or 'wb=rd7y#xw2sm2%hw1nq^-vvqk6t4$23u2_+ue
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.getenv('DEBUG') or 0)
 
-ALLOWED_HOSTS = os.getenv("DJ_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.getenv("DJ_ALLOWED_HOSTS").split(" ") or []
 
 # Application definition
 
@@ -52,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 
 ROOT_URLCONF = 'mycore.urls'
