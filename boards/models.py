@@ -26,7 +26,7 @@ class Topic(models.Model):
         return self.subject
 
 
-class Posts(models.Model):
+class Post(models.Model):
     message = models.TextField(max_length=4000)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='posts')
     created_at = models.DateTimeField(auto_now_add=True)
