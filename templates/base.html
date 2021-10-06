@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <title>{% block title %}Boards{% endblock title %}</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand board-brand" href="#">Board-Mgr </a>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <ol aria-label="breadcrumb" class="breadcrumb my-2 text-black-50">
+      {% block breadcrumb %}{% endblock breadcrumb %}
+    </ol>
+    {% block content %}{% endblock content %}
+
+  </div>
+</body>
+
+</html>
