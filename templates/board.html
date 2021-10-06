@@ -13,7 +13,8 @@
 <body>
   <div class="container-fluid">
       <ol aria-label="breadcrumb" class="breadcrumb my-2 text-black-50">
-        <li class="breadcrumb-item active" aria-current="page">Boards</li>
+        <li class="breadcrumb-item">Boards</li>
+        <li class="breadcrumb-item active" aria-current="page">{{board.name}}</li>
       </ol>
 
     <div class="row overflow-hidden gy-2">
@@ -23,9 +24,7 @@
         {% endif%}
         <div class="col-lg-4 col-md-4 col-sm-12">
           <div class="card">
-            <div class="card-header">
-              <a href="{% url 'board_topics' board.pk %}">{{ board.name }}</a>
-            </div>
+            <div class="card-header">{{ board.name }}</div>
             <div class="card-body">
               <p class="card-subtitle mb-2 text-muted">{{ board.description }}</p>
               <a href="#" class="btn btn-outline-secondary">Topics: 20</a>
