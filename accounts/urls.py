@@ -9,5 +9,5 @@ loginView = auth_views.LoginView.as_view(template_name='accounts/login.html')
 urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('/login/', loginView, name='login'),
+    path('login/', loginView, name='login'),
 ]
