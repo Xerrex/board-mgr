@@ -35,3 +35,9 @@ passwadResetConfirmView = auth_views.PasswordResetConfirmView.as_view(
 
 passwordResetCompleteView = auth_views.PasswordResetCompleteView.as_view(
         template_name='accounts/passwd/password_reset_complete.html')
+
+passwordChangeView = auth_views.PasswordChangeView.as_view(
+                template_name='accounts/passwd/password_change.html')
+
+passwordChangeDoneView = auth_views.PasswordChangeDoneView.as_view(
+                template_name='accounts/passwd/password_change_done.html')
