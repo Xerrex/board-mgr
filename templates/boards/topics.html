@@ -24,18 +24,18 @@
         <th>Last Update</th>
       </tr>
     </thead>
-  <tbody>
-  <div class="list-group">
-    {% for topic in topics %}
-    <tr>
-      <td><a href="{% url 'topic_posts' board.pk topic.pk %}">{{ topic.subject }}</a></td>
-      <td>{{ topic.starter.username }}</td>
-      <td>{{ topic.replies }}</td>
-      <td>{{ topic.views}}</td>
-      <td>{{ topic.last_updated }}</td>
-      
-    </tr>
-    {% endfor %}
-  </tbody>
-  </div>
+    <tbody>
+      {% for topic in topics %}
+        <tr>
+          <td><a href="{% url 'topic_posts' board.pk topic.pk %}">{{ topic.subject }}</a></td>
+          <td>{{ topic.starter.username }}</td>
+          <td>{{ topic.replies }}</td>
+          <td>{{ topic.views}}</td>
+          <td>{{ topic.last_updated }}</td>
+          
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include 'includes/pagination.html' %}
 {% endblock content%}
