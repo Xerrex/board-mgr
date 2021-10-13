@@ -62,6 +62,8 @@ class PostListView(ListView):
     template_name = 'boards/topic_posts.html'
     paginate_by = 2
 
+    #TODO: Modify Post Design
+
     def get_context_data(self, **kwargs):
         self.topic.views += 1
         self.topic.save()
