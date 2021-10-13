@@ -5,6 +5,7 @@ from django.db.models import Count
 from django.views.generic import UpdateView, ListView
 from django.utils import timezone
 from django.utils.decorators import method_decorator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Board, Topic, Post
 from .forms import NewTopicForm, PostForm
 
@@ -21,7 +22,20 @@ def board_topics(request, pk):
     """Show topics on board
     """
     board = get_object_or_404(Board, pk=pk)
-    topics = board.topics.order_by('-last_updated').annotate(replies=Count('posts')-1)
+    queryset = board.topics.order_by('-last_updated').annotate(replies=Count('posts')-1)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(queryset, 10)
+
+    try:
+        topics = paginator.page(page)
+    except PageNotAnInteger:
+        # fallback to the first page
+        topics = paginator.page(1)
+    except EmptyPage:
+        # probably the user tried to add a page number
+        # in the url, so we fallback to the last page
+        topics = paginator.page(paginator.num_pages)
+
     return render(request, 'boards/topics.html', {'board': board, 'topics': topics})
 
 @login_required
@@ -52,6 +66,7 @@ def topic_posts(request, pk, topic_pk):
     topic = get_object_or_404(Topic, board__pk=pk, pk=topic_pk)
     topic.views +=1
     topic.save()
+    # TODO: Check post telemetry:post
     return render(request, 'boards/topic_posts.html', {'topic': topic})
 
 @login_required
