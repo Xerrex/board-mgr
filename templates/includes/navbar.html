@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand board-brand" href="#">Board-Mgr</a>
+    <a class="navbar-brand board-brand" href="{% url 'home' %}">Board-Mgr</a>
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"  
       data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
@@ -26,7 +26,7 @@
           </li>
         {% else %}
           <li class="nav-item ms-2"><a href="{% url 'login' %}" class="btn btn-primary">Login</a></li>
-          <li class="nav-item ms-2"><a href="{% url 'signup' %}" class="btn btn-secondary ml-2">Sign up</a></li>
+          <li class="nav-item ms-2"><a href="{% url 'signup' %}" class="btn btn-secondary ml-2">Signup</a></li>
         {% endif %}
       </ul>
     </div>

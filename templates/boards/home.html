@@ -20,10 +20,25 @@
           </div>
           <div class="card-body">
             <p class="card-subtitle mb-2 text-muted">{{ board.description }}</p>
-            <a href="#" class="btn btn-outline-secondary">Topics: 20</a>
-            <a href="#" class="btn btn-outline-info">Posts: 20</a>
+            <a href="#" class="btn btn-outline-secondary">Topic: {{ board.topics.count }}</a>
+            <a href="#" class="btn btn-outline-info">Posts: {{ board.get_posts_count }}</a>
           </div>
-          <div class="card-footer text-muted">2 days ago</div>
+          <div class="card-footer text-muted">
+            {% with post=board.get_last_post %}
+              {% if post %}
+              <small>
+                Recent Post By
+                <a href="{% url 'topic_posts' board.pk post.topic.pk %}">
+                   {{ post.created_by.username }} at {{ post.created_at }}
+                </a>
+              </small>
+              {% else %}
+                <small class="text-muted">
+                  <em>No posts yet.</em>
+                </small>
+              {% endif %}
+            {% endwith %}
+        </div>
         </div>
       </div>
     {% endfor %}
