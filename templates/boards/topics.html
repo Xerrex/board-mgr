@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  {{ board.name }} - {{ block.super }}
+  {{ board.name }} - Topics
 {% endblock %}
 
 {% block breadcrumb %}
@@ -14,18 +14,28 @@
     <a href="{% url 'new_topic' board.pk %}" class="btn btn-primary">New topic</a>
   </div>
 
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Topic</th>
+        <th>Starter</th>
+        <th>Replies</th>
+        <th>Views</th>
+        <th>Last Update</th>
+      </tr>
+    </thead>
+  <tbody>
   <div class="list-group">
-    {% for topic in board.topics.all %}
-      <a href="{% url 'topic_posts' board.pk topic.pk %}" class="list-group-item list-group-item-action" aria-current="true">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{ topic.subject }}
-            <span class="badge bg-secondary rounded-pill">14</span>
-          </h5>
-          <small>{{ topic.last_updated }}</small>
-        </div>
-        <p class="mb-1">Started by:- {{ topic.starter.username }}</p>
-        <small>views: 14</small>
-      </a>
+    {% for topic in topics %}
+    <tr>
+      <td><a href="{% url 'topic_posts' board.pk topic.pk %}">{{ topic.subject }}</a></td>
+      <td>{{ topic.starter.username }}</td>
+      <td>{{ topic.replies }}</td>
+      <td>{{ topic.views}}</td>
+      <td>{{ topic.last_updated }}</td>
+      
+    </tr>
     {% endfor %}
+  </tbody>
   </div>
 {% endblock content%}
