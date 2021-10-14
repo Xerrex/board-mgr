@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block breadcrumb %}
   <li class="breadcrumb-item active" aria-current="page">Boards</li>
@@ -29,8 +30,9 @@
               <small>
                 Recent Post By
                 <a href="{% url 'topic_posts' board.pk post.topic.pk %}">
-                   {{ post.created_by.username }} at {{ post.created_at }}
+                   {{ post.created_by.username }} 
                 </a>
+                -  {{ post.created_at }} ({{post.created_at|naturaltime}})
               </small>
               {% else %}
                 <small class="text-muted">
