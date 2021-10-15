@@ -66,7 +66,7 @@ class PostListView(ListView):
     #TODO: Modify Post Design
 
     def get_context_data(self, **kwargs):
-        session_key = 'viewed_topic_{}'.format(self.topic.pk)
+        session_key = f'viewed_topic_{self.topic.pk}'
         if not self.request.session.get(session_key, False):
             self.topic.views += 1
             self.topic.save()
@@ -94,11 +94,7 @@ def topic_reply(request, pk, topic_pk):
             topic.save()
             topic_url = reverse('topic_posts', kwargs={'pk': pk, 'topic_pk': topic_pk})
             
-            topic_post_url = '{url}?page={page}#{id}'.format(
-                url=topic_url,
-                id=post.pk,
-                page=topic.get_page_count()
-            )
+            topic_post_url = f'{topic_url}?page={topic.get_page_count()}#{post.pk}'
 
             return redirect(topic_post_url)
     else:

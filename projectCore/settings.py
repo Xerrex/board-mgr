@@ -78,6 +78,7 @@ WSGI_APPLICATION = 'projectCore.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+# TODO: use dj-database-url
 
 DATABASES = {
     'default': {
