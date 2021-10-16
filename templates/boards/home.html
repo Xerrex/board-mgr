@@ -1,53 +1,48 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item active">Boards</li>
-{% endblock %}
+  <li class="breadcrumb-item active" aria-current="page">Boards</li>
+{%endblock breadcrumb %}
+
 
 {% block content %}
-  <table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th>Board</th>
-        <th>Posts</th>
-        <th>Topics</th>
-        <th>Last Post</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for board in boards %}
-        <tr>
-          <td>
+  <div class="row overflow-hidden gy-2">
+    {% for board in boards %}
+
+      {% if forloop.counter0|divisibleby:"3" %}
+        <div class="w-100"></div>
+      {% endif%}
+      
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card mb-2">
+          <div class="card-header">
             <a href="{% url 'board_topics' board.pk %}">{{ board.name }}</a>
-            <small class="text-muted d-block">{{ board.description }}</small>
-          </td>
-
-          <td class="align-middle">
-            {{ board.get_posts_count }}
-          </td>
-
-          <td class="align-middle">
-            {{ board.topics.count }}
-          </td>
-
-          <td class="align-middle">
+          </div>
+          <div class="card-body">
+            <p class="card-subtitle mb-2 text-muted">{{ board.description }}</p>
+            <a href="#" class="btn btn-outline-secondary">Topic: {{ board.topics.count }}</a>
+            <a href="#" class="btn btn-outline-info">Posts: {{ board.get_posts_count }}</a>
+          </div>
+          <div class="card-footer text-muted">
             {% with post=board.get_last_post %}
               {% if post %}
-                <small>
-                  <a href="{% url 'topic_posts' board.pk post.topic.pk %}">
-                    By {{ post.created_by.username }} at {{ post.created_at }}
-                  </a>
-                </small>
+              <small>
+                Recent Post By
+                <a href="{% url 'topic_posts' board.pk post.topic.pk %}">
+                   {{ post.created_by.username }} 
+                </a>
+                -  {{ post.created_at }} ({{post.created_at|naturaltime}})
+              </small>
               {% else %}
                 <small class="text-muted">
                   <em>No posts yet.</em>
                 </small>
-            {% endif %}
+              {% endif %}
             {% endwith %}
-          </td>
-
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-{% endblock %}
+        </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>  
+{%endblock content %}

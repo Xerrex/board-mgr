@@ -5,12 +5,13 @@ from django.views.generic import UpdateView, ListView
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.urls import reverse
-
 from .models import Board, Topic, Post
 from .forms import NewTopicForm, PostForm
 
 
 class BoardListView(ListView):
+    """previously home
+    """
     model = Board
     context_object_name = 'boards'
     template_name = 'boards/home.html'
@@ -20,7 +21,7 @@ class TopicListView(ListView):
     model = Topic
     context_object_name = 'topics'
     template_name = 'boards/topics.html'
-    paginate_by = 20
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         kwargs['board'] = self.board
@@ -34,55 +35,52 @@ class TopicListView(ListView):
 
 @login_required
 def new_topic(request, pk):
+    """Create a new Topic
+    """
     board = get_object_or_404(Board, pk=pk)
 
-    # TODO: get the currently logged in user
-    # user = User.objects.first()
-
-    if request.method == 'POST':
+    if request.method == "POST":
         form = NewTopicForm(request.POST)
+
         if form.is_valid():
             topic = form.save(commit=False)
             topic.board = board
             topic.starter = request.user
             topic.save()
-            post = Post.objects.create(
-                message= form.cleaned_data.get('message'),
-                topic = topic,
-                created_by = request.user
-            )
 
+            post = Post.objects.create(
+                message=form.cleaned_data.get('message'), 
+                topic=topic, created_by=request.user
+            )
             return redirect('topic_posts', pk=pk, topic_pk=topic.pk)
     else:
         form = NewTopicForm()
-
     return render(request, 'boards/new_topic.html', {'board': board, 'form': form})
-
 
 class PostListView(ListView):
     model = Post
     context_object_name = 'posts'
     template_name = 'boards/topic_posts.html'
-    paginate_by = 10
+    paginate_by = 2
+
+    #TODO: Modify Post Design
 
     def get_context_data(self, **kwargs):
-        session_key = 'viewed_topic_{}'.format(self.topic.pk)
+        session_key = f'viewed_topic_{self.topic.pk}'
         if not self.request.session.get(session_key, False):
             self.topic.views += 1
             self.topic.save()
             self.request.session[session_key] = True
-
         kwargs['topic'] = self.topic
         return super().get_context_data(**kwargs)
-
+    
     def get_queryset(self):
         self.topic = get_object_or_404(Topic, board__pk=self.kwargs.get('pk'), pk=self.kwargs.get('topic_pk'))
         queryset = self.topic.posts.order_by('created_at')
         return queryset
 
-
 @login_required
-def reply_topic(request, pk, topic_pk):
+def topic_reply(request, pk, topic_pk):
     topic = get_object_or_404(Topic, board__pk=pk, pk=topic_pk)
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -94,24 +92,23 @@ def reply_topic(request, pk, topic_pk):
 
             topic.last_updated = timezone.now()
             topic.save()
-
             topic_url = reverse('topic_posts', kwargs={'pk': pk, 'topic_pk': topic_pk})
-            topic_post_url = '{url}?page={page}#{id}'.format(
-                url=topic_url,
-                id=post.pk,
-                page=topic.get_page_count()
-            )
+            
+            topic_post_url = f'{topic_url}?page={topic.get_page_count()}#{post.pk}'
+
             return redirect(topic_post_url)
     else:
         form = PostForm()
-    return render(request, 'boards/reply_topic.html', {'topic': topic, 'form': form})
+    return render(request, 'boards/topic_reply.html', {'topic': topic, 'form': form})
 
 
 @method_decorator(login_required, name="dispatch")
-class PostUpdateView(UpdateView):
+class PostEditView(UpdateView):
+    """GCBV for editing a post
+    """
     model = Post
     fields = ('message', )
-    template_name = 'boards/edit_post.html'
+    template_name = 'boards/post_edit.html'
     pk_url_kwarg = 'post_pk'
     context_object_name = 'post'
 
@@ -124,7 +121,7 @@ class PostUpdateView(UpdateView):
         post.updated_by = self.request.user
         post.updated_at = timezone.now()
         post.save()
-        return redirect('topic_posts',
-                        pk=post.topic.board.pk,
-                        topic_pk=post.topic.pk
-                        )
+        return redirect('topic_posts', 
+                pk=post.topic.board.pk, 
+                topic_pk=post.topic.pk
+        )

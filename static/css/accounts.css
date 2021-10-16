@@ -1,13 +1,14 @@
-body {
-  background-image: url(../img/background1.png);
+body{
+    background-image: url(../img/dark-honeycomb.png);
 }
 
-.logo {
-  font-family: 'Peralta', cursive;
+.logo{
+    font-family: 'Titan One', cursive;
 }
 
-.logo a {
-  color: rgba(0,0,0,.9);
+.logo a{
+    color: rgba(247, 238, 238, 0.932);
+    text-decoration: none;
 }
 
 .logo a:hover,

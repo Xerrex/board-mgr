@@ -1,11 +1,11 @@
-{% extends 'accounts/base_accounts.html' %}
+{% extends 'accounts/base.html' %}
 
-{% block title %}Sign up to Django Boards{% endblock %}
+{% block title %}Signup - BM{% endblock title %}
 
 {% block content %}
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
-      <div class="card">
+      <div class="card mb-2">
         <div class="card-body">
           <h3 class="card-title">Sign up</h3>
           <form method="post" novalidate>
@@ -15,9 +15,9 @@
           </form>
         </div>
         <div class="card-footer text-muted text-center">
-          Already have an account? <a href="{% url 'login' %}">Log in</a>
+            Already have an account? <a href="{% url 'login' %}">Login</a>
         </div>
       </div>
     </div>
   </div>
-{% endblock %}
+{% endblock content %}

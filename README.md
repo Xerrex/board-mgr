@@ -1,13 +1,15 @@
-## Django Boards
-* A Django Boards app where you can create boards.
-* My Introduction to Django thanks to [this series](https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/).
+# Board Manager
+* Discuss your topics in an orderly manner.
 
-## Language & tools used.
-* **[Python3](https://www.python.org/downloads/)** - A programming language that lets you work more quickly (The universe loves speed!).
-* **[Django](https://www.djangoproject.com/)** -  A high-level Python Web framework that encourages 
-rapid development and clean, pragmatic design.
-* **[Bootstrap](https://getbootstrap.com)** - he world’s most popular framework for building responsive, mobile-first sites.
-* **[Docker](https://docs.docker.com/)** - An easy way to package and deploy applications.
+## Features
+* Boards - Collection of topics.
+* Topics - An item worth reading about.
+* Post - An Article in regards to a topic.
+
+## Built With
+* **[Python (3.8.10)](https://www.python.org/downloads/)** - A programming language that lets you work more quickly (The universe loves speed!).
+* **[Django (3.2.7)](https://www.djangoproject.com/)** -  A high-level Python Web framework that encourages rapid development and clean, pragmatic design.
+* **[Bootstrap (5.1)](https://getbootstrap.com)** - The world’s most popular framework for building responsive, mobile-first sites.
 
 ## Table of contents
 
@@ -18,10 +20,11 @@ rapid development and clean, pragmatic design.
 * ### [Testing](#testing)
     * [Local testing](#local-testing)
     * [Local testing with docker](#local-testing-with-docker)
+* ### [Acknowledgement](#acknowledgement)
 
 
 **NB** 
-* Command are for a linux based os
+* Commands are linux based os.
 * Run the command after **$**:
 * **$** and anything before it, shows prompt status.
 
@@ -29,11 +32,11 @@ rapid development and clean, pragmatic design.
 
 1. #### **Clone the repo.**
     ```
-    $ git clone https://github.com/Xerrex/simple_project.git
+    $ git clone https://github.com/Xerrex/board-mgr.git
     ```
 2. #### change into the cloned directory
     ```
-    $ cd simple_project
+    $ cd board-mgr
     ```
 3. #### **Create virtual environment & Activate.**
     ```
@@ -46,22 +49,24 @@ rapid development and clean, pragmatic design.
     ```
 5. #### **Enviroment variables.**
     ```
-    (venv)$ cp .env.examples .env_local
-    (venv)$ cp .touch .env_dev
+    (venv)$ cp .env.examples .env
     ```
 **NB**
-* replace `<>` with your actual value in the .env & .envdev
+* replace `<>` with your actual value in the .env
 
-6. #### **Add the following lines to .envdev file**
+6. #### **Edit the following lines in .env file.**
     ```
-    SECRET_KEY="<your-selected-key"
-    DEBUG=<enter-1-or-0>
-    DJ_ALLOWED_HOSTS=<list-your-host-space-separated>
+    export SECRET_KEY="<Put your most secure key here>"
+    export DEBUG=<change to True or FALSE>
+    ```
+7. #### **Export/Set the .env files.**
+    ```
+    (venv)$ source .env
     ```
 
 ## Running
 ### Running locally
-1. * #### **Intialize schema/ database tables**
+1. * #### **Intialize schema/ database tables.**
     ```
     (venv)$ python manage.py migrate
     ``` 
@@ -70,27 +75,11 @@ rapid development and clean, pragmatic design.
     (venv)$ python manage.py runserver
     ```
 
-### Running locally with docker
-1. * #### **Build the container**
-    ```
-    $ docker-compose build
-    ```
-2. * #### **RUN the containners**
-    ```
-    $ docker-compose up
-    ```
-3. * #### **Intialize schema/ database tables**
-    ```
-    docker-compose exec web python manage.py migrate --noinput
-    ```
-
 ## Testing
 ### Local testing
 ```
 (venv)$ python manage.py test
 ```
-### Local testing with docker
-```
-$ docker-compose exec web python manage.py test
-```
-* **ensure you are in the same directory as the docker-compose.yml**
+
+## Acknowledgement
+* [Django Beginners Guide by Vitor Freitas](https://simpleisbetterthancomplex.com/series/beginners-guide/1.11/)
